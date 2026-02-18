@@ -8,20 +8,22 @@ import {
 import logoImg from "../img/thiagoestilos.jpeg";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function Reagendar() {
   const [servicos, setServicos] = useState([]);
   const [token, setToken] = useState("");
   const [agendamento, setAgendamento] = useState(null);
 
+  const [nome, setNome] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [servicoId, setServicoId] = useState("");
   const [precoSelecionado, setPrecoSelecionado] = useState(null);
   const [data, setData] = useState("");
   const [horarios, setHorarios] = useState([]);
   const [horario, setHorario] = useState("");
   const [mensagem, setMensagem] = useState("");
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function carregar() {
       const data = await listarServicos();
@@ -40,6 +42,9 @@ const navigate = useNavigate();
 
     setAgendamento(resposta);
 
+    // Preenche os campos de cliente e agendamento
+    setNome(resposta.nome || "");
+    setTelefone(resposta.telefone || "");
     const servico = servicos.find(s => s.nome === resposta.servico);
     if (servico) {
       setServicoId(servico.id);
@@ -63,32 +68,33 @@ const navigate = useNavigate();
     }
   }, [data, servicoId]);
 
- async function handleReagendar(e) {
-  e.preventDefault();
+  async function handleReagendar(e) {
+    e.preventDefault();
 
-  const resposta = await reagendarAgendamento(token, {
-    nome: agendamento.cliente?.nome || "",
-    telefone: agendamento.cliente?.telefone || "",
-    servico_id: servicoId,
-    data,
-    horario
-  });
+    const payload = {
+      nome,
+      telefone,
+      servico_id: servicoId,
+      data,
+      horario
+    };
 
-  if (resposta.success) {
-    setMensagem(
-      "Reagendamento realizado.\nConfirme no WhatsApp com o barbeiro."
-    );
+    const resposta = await reagendarAgendamento(token, payload);
 
-    if (resposta.whatsapp_url) {
-      setTimeout(() => {
-        window.open(resposta.whatsapp_url, "_blank");
-      }, 800);
+    if (resposta.success) {
+      setMensagem(
+        "Reagendamento realizado.\nConfirme no WhatsApp com o barbeiro."
+      );
+
+      if (resposta.whatsapp_url) {
+        setTimeout(() => {
+          window.open(resposta.whatsapp_url, "_blank");
+        }, 800);
+      }
+    } else {
+      setMensagem(resposta.error || "Erro ao reagendar.");
     }
-  } else {
-    setMensagem(resposta.error || "Erro ao reagendar.");
   }
-}
-
 
   return (
     <div
@@ -134,10 +140,31 @@ const navigate = useNavigate();
         {agendamento && (
           <form onSubmit={handleReagendar} className="flex flex-col gap-4">
 
+            {/* Campos de cliente */}
+            <label className="text-xs text-yellow-200 uppercase font-bold">
+              Nome do Cliente
+            </label>
+            <input
+              type="text"
+              className="bg-[#2b2b2b] border border-gray-600 rounded-md p-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-600"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+
+            <label className="text-xs text-yellow-200 uppercase font-bold">
+              Telefone
+            </label>
+            <input
+              type="text"
+              className="bg-[#2b2b2b] border border-gray-600 rounded-md p-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-600"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+            />
+
+            {/* Serviço */}
             <label className="text-xs text-yellow-200 uppercase font-bold">
               Selecione o Serviço
             </label>
-
             <select
               className="bg-[#2b2b2b] border border-gray-600 rounded-md p-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-600"
               value={servicoId}
@@ -162,10 +189,10 @@ const navigate = useNavigate();
               </div>
             )}
 
+            {/* Data e horário */}
             <label className="text-xs text-yellow-200 uppercase font-bold">
               Nova Data
             </label>
-
             <input
               type="date"
               className="bg-[#2b2b2b] border border-gray-600 rounded-md p-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-600"
@@ -176,7 +203,6 @@ const navigate = useNavigate();
             <label className="text-xs text-yellow-200 uppercase font-bold">
               Novo Horário
             </label>
-
             <select
               className="bg-[#2b2b2b] border border-gray-600 rounded-md p-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-600"
               value={horario}
@@ -202,7 +228,8 @@ const navigate = useNavigate();
             {mensagem}
           </div>
         )}
-          <button
+
+        <button
           onClick={() => navigate("/")}
           className="w-full mt-6 text-zinc-400 hover:text-yellow-500 transition-all text-sm"
         >
