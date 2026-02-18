@@ -12,7 +12,6 @@ export default function Cancelar() {
 
   const navigate = useNavigate();
 
-  // Puxa a URL do Render do .env ou usa a string direta caso o .env não carregue
   const API_BASE_URL = import.meta.env.VITE_API_URL || "https://thiagoestilos-backend.onrender.com";
 
   async function buscarAgendamento() {
@@ -29,9 +28,9 @@ export default function Cancelar() {
     try {
       setLoading(true);
 
-      // CORREÇÃO: Usando o endpoint de detalhe que você definiu no Django
+      // AJUSTE: O caminho na sua urls.py para detalhe é api/agendamentos/<uuid:token>/
       const response = await fetch(
-        `${API_BASE_URL}/api/detalhe/${token}/`
+        `${API_BASE_URL}/api/agendamentos/${token}/`
       );
 
       if (!response.ok) {
@@ -57,9 +56,9 @@ export default function Cancelar() {
     try {
       setLoading(true);
 
-      // CORREÇÃO: Usando o endpoint de cancelar e garantindo o método DELETE
+      // AJUSTE: O caminho na sua urls.py para cancelar é api/agendamentos/<uuid:token>/cancelar/
       const response = await fetch(
-        `${API_BASE_URL}/api/cancelar/${token}/`,
+        `${API_BASE_URL}/api/agendamentos/${token}/cancelar/`,
         {
           method: "DELETE",
           headers: {
@@ -89,8 +88,6 @@ export default function Cancelar() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex justify-center px-4 py-10">
       <div className="w-full max-w-[450px]">
-
-        {/* HEADER */}
         <header className="flex flex-col items-center text-center mb-10">
           <div className="relative mb-4">
             <div className="absolute inset-0 bg-yellow-600/20 blur-2xl rounded-full" />
@@ -100,7 +97,6 @@ export default function Cancelar() {
               className="relative w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-yellow-600 object-cover shadow-2xl"
             />
           </div>
-
           <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-yellow-500">
             Cancelar Horário
           </h1>
@@ -109,7 +105,6 @@ export default function Cancelar() {
           </p>
         </header>
 
-        {/* CARD PRINCIPAL */}
         <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl shadow-xl">
           <div className="space-y-4">
             <input
@@ -119,7 +114,6 @@ export default function Cancelar() {
               onChange={(e) => setToken(e.target.value)}
               className="w-full p-3 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-yellow-600 transition-all font-mono text-sm"
             />
-
             <button
               onClick={buscarAgendamento}
               disabled={loading}
@@ -129,7 +123,6 @@ export default function Cancelar() {
             </button>
           </div>
 
-          {/* MENSAGENS DE ERRO E SUCESSO */}
           {erro && (
             <div className="mt-4 p-3 bg-red-900/20 border border-red-900/50 rounded-lg">
                 <p className="text-red-500 text-center text-sm">{erro}</p>
@@ -141,7 +134,6 @@ export default function Cancelar() {
               <div className="p-3 bg-green-900/20 border border-green-900/50 rounded-lg">
                 <p className="text-green-500 text-sm font-medium">{mensagem}</p>
               </div>
-
               {whatsappLink && (
                 <button
                   onClick={() => window.open(whatsappLink, "_blank")}
@@ -153,7 +145,6 @@ export default function Cancelar() {
             </div>
           )}
 
-          {/* DETALHES DO AGENDAMENTO ENCONTRADO */}
           {agendamento && (
             <div className="mt-6 border-t border-zinc-800 pt-6 animate-in fade-in slide-in-from-top-4 duration-300">
               <h3 className="text-yellow-500 text-xs font-bold uppercase mb-4 tracking-tighter">Detalhes da Reserva</h3>
@@ -187,7 +178,6 @@ export default function Cancelar() {
           )}
         </div>
 
-        {/* BOTÃO VOLTAR */}
         <button
           onClick={() => navigate("/")}
           className="w-full mt-8 text-zinc-500 hover:text-yellow-500 transition-all text-sm flex items-center justify-center gap-2"
