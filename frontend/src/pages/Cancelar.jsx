@@ -12,8 +12,8 @@ export default function Cancelar() {
 
   const navigate = useNavigate();
 
-  // Puxa a URL do .env ou usa a do Render como padrão
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
+  // Puxa a URL do Render do .env ou usa a string direta caso o .env não carregue
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "https://thiagoestilos-backend.onrender.com";
 
   async function buscarAgendamento() {
     setErro("");
@@ -29,9 +29,9 @@ export default function Cancelar() {
     try {
       setLoading(true);
 
-      // Busca os detalhes do agendamento para mostrar na tela antes de cancelar
+      // CORREÇÃO: Usando o endpoint de detalhe que você definiu no Django
       const response = await fetch(
-        `${API_BASE_URL}/api/agendamentos/${token}/`
+        `${API_BASE_URL}/api/detalhe/${token}/`
       );
 
       if (!response.ok) {
@@ -57,9 +57,9 @@ export default function Cancelar() {
     try {
       setLoading(true);
 
-      // Chamada DELETE para o endpoint correto
+      // CORREÇÃO: Usando o endpoint de cancelar e garantindo o método DELETE
       const response = await fetch(
-        `${API_BASE_URL}/api/agendamentos/${token}/`,
+        `${API_BASE_URL}/api/cancelar/${token}/`,
         {
           method: "DELETE",
           headers: {
@@ -77,7 +77,7 @@ export default function Cancelar() {
       setMensagem("Agendamento cancelado com sucesso!");
       setWhatsappLink(data.whatsapp_url || null);
       setAgendamento(null);
-      setToken(""); // Limpa o campo de token após sucesso
+      setToken(""); 
 
     } catch (err) {
       setErro(err.message);
