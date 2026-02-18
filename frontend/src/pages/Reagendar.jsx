@@ -42,17 +42,18 @@ export default function Reagendar() {
 
     setAgendamento(resposta);
 
-    // Preenche os campos de cliente e agendamento
+    // 🔹 Preencher automaticamente os campos do formulário
     setNome(resposta.nome || "");
     setTelefone(resposta.telefone || "");
+    setData(resposta.data);
+    setHorario(resposta.horario);
+
     const servico = servicos.find(s => s.nome === resposta.servico);
     if (servico) {
       setServicoId(servico.id);
       setPrecoSelecionado(servico.preco);
     }
 
-    setData(resposta.data);
-    setHorario(resposta.horario);
     setMensagem("");
   }
 
