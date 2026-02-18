@@ -12,6 +12,9 @@ export default function Cancelar() {
 
   const navigate = useNavigate();
 
+  // Definição da URL base para evitar erros de digitação
+  const API_BASE_URL = "https://thiagoestilos-backend.onrender.com";
+
   async function buscarAgendamento() {
     setErro("");
     setMensagem("");
@@ -26,8 +29,9 @@ export default function Cancelar() {
     try {
       setLoading(true);
 
+      // CORREÇÃO: Usando a URL do Render em vez de 127.0.0.1
       const response = await fetch(
-        `http://127.0.0.1:8000/api/agendamentos/${token}/`
+        `${API_BASE_URL}/api/agendamentos/${token}/`
       );
 
       if (!response.ok) {
@@ -53,10 +57,16 @@ export default function Cancelar() {
     try {
       setLoading(true);
 
-   const response = await fetch(
-  `${import.meta.env.VITE_API_URL}/api/agendamentos/${token}/`
-);
-
+      // CORREÇÃO: Adicionado o método DELETE explicitamente
+      const response = await fetch(
+        `${API_BASE_URL}/api/agendamentos/${token}/`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
 
