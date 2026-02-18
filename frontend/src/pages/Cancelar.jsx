@@ -53,10 +53,10 @@ export default function Cancelar() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/agendamentos/${token}/cancelar/`,
-        { method: "DELETE" }
-      );
+   const response = await fetch(
+  `${import.meta.env.VITE_API_URL}/api/agendamentos/${token}/`
+);
+
 
       const data = await response.json();
 

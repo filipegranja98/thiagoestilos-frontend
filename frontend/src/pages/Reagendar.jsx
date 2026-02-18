@@ -63,28 +63,32 @@ const navigate = useNavigate();
     }
   }, [data, servicoId]);
 
-  async function handleReagendar(e) {
-    e.preventDefault();
+ async function handleReagendar(e) {
+  e.preventDefault();
 
-    const resposta = await reagendarAgendamento(token, {
-      data,
-      horario
-    });
+  const resposta = await reagendarAgendamento(token, {
+    nome: agendamento.cliente?.nome || "",
+    telefone: agendamento.cliente?.telefone || "",
+    servico_id: servicoId,
+    data,
+    horario
+  });
 
-    if (resposta.success) {
-      setMensagem(
-        "Reagendamento realizado.\nConfirme no WhatsApp com o barbeiro."
-      );
+  if (resposta.success) {
+    setMensagem(
+      "Reagendamento realizado.\nConfirme no WhatsApp com o barbeiro."
+    );
 
-      if (resposta.whatsapp_url) {
-        setTimeout(() => {
-          window.open(resposta.whatsapp_url, "_blank");
-        }, 800);
-      }
-    } else {
-      setMensagem(resposta.error || "Erro ao reagendar.");
+    if (resposta.whatsapp_url) {
+      setTimeout(() => {
+        window.open(resposta.whatsapp_url, "_blank");
+      }, 800);
     }
+  } else {
+    setMensagem(resposta.error || "Erro ao reagendar.");
   }
+}
+
 
   return (
     <div
