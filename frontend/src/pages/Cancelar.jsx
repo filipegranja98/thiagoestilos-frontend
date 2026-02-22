@@ -76,7 +76,7 @@ export default function Cancelar() {
       setMensagem("Agendamento cancelado com sucesso!");
       setWhatsappLink(data.whatsapp_url || null);
       setAgendamento(null);
-      setToken(""); 
+      setToken("");
 
     } catch (err) {
       setErro(err.message);
@@ -94,7 +94,7 @@ export default function Cancelar() {
             <img
               src={logoImg}
               alt="Logo Thiago Estilos"
-              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-yellow-600 object-cover shadow-2xl"
+              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-yellow-600 object-cover shadow-2xl animate-float"
             />
           </div>
           <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-yellow-500">
@@ -125,7 +125,7 @@ export default function Cancelar() {
 
           {erro && (
             <div className="mt-4 p-3 bg-red-900/20 border border-red-900/50 rounded-lg">
-                <p className="text-red-500 text-center text-sm">{erro}</p>
+              <p className="text-red-500 text-center text-sm">{erro}</p>
             </div>
           )}
 

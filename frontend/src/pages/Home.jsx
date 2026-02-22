@@ -28,17 +28,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full bg-zinc-950 text-zinc-100 font-sans selection:bg-yellow-500/30">
-      
+
       <div className="max-w-[450px] md:max-w-4xl mx-auto min-h-screen flex flex-col px-4 py-8">
-       
+
         <header className="flex flex-col items-center text-center mb-10">
           <div className="relative mb-4">
             <div className="absolute inset-0 bg-yellow-600/20 blur-2xl rounded-full" />
-            
+
             <img
               src={logoImg}
               alt="Logo Thiago Estilos"
-              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-yellow-600 object-cover shadow-2xl"
+              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-yellow-600 object-cover shadow-2xl animate-float"
             />
           </div>
 
@@ -68,8 +68,8 @@ export default function Home() {
               </p>
             ) : (
               servicos.map((s) => (
-                <div 
-                  key={s.id} 
+                <div
+                  key={s.id}
                   className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl flex justify-between items-center hover:border-yellow-600/50 transition-all"
                 >
                   <div>
@@ -90,14 +90,14 @@ export default function Home() {
         {/* Botões */}
         <div className="w-full bg-zinc-950/80 backdrop-blur-md md:relative md:bg-transparent md:p-0 md:mt-auto">
           <div className="max-w-[450px] md:max-w-none mx-auto flex flex-col md:flex-row gap-3">
-            
+
             <button
               onClick={() => navigate("/agendar")}
               className="w-full py-4 bg-yellow-600 hover:bg-yellow-500 text-zinc-950 font-black uppercase rounded-xl transition-all shadow-xl active:scale-95"
             >
               Agendar Horário
             </button>
-    
+
             <button
               onClick={() => navigate("/reagendar")}
               className="w-full py-4 border-2 border-yellow-600 text-yellow-600 font-bold uppercase rounded-xl hover:bg-yellow-600/10 transition-all"

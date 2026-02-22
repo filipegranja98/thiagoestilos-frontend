@@ -109,7 +109,7 @@ export default function Reagendar() {
         <img
           src={logoImg}
           alt="Logo Thiago Estilos"
-          className="w-28 h-28 mx-auto mb-4 rounded-full border-4 border-yellow-600 object-cover"
+          className="w-28 h-28 mx-auto mb-4 rounded-full border-4 border-yellow-600 object-cover animate-float"
         />
 
         <h1 className="text-yellow-600 text-2xl mb-6 uppercase tracking-widest">

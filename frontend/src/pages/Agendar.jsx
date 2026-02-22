@@ -17,7 +17,7 @@ export default function Agendar() {
 
   const [mensagem, setMensagem] = useState("");
   const [whatsappLink, setWhatsappLink] = useState(null);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   /* =========================
      VALIDAÇÕES
   ========================= */
@@ -126,7 +126,7 @@ const navigate = useNavigate();
         <img
           src={logoImg}
           alt="Logo Thiago Estilos"
-          className="w-28 h-28 mx-auto mb-4 rounded-full border-4 border-yellow-600 object-cover"
+          className="w-28 h-28 mx-auto mb-4 rounded-full border-4 border-yellow-600 object-cover animate-float"
         />
 
         <h1 className="text-yellow-600 text-2xl mb-6 uppercase tracking-widest">
@@ -238,14 +238,14 @@ const navigate = useNavigate();
             )}
           </div>
         )}
-          <button
+        <button
           onClick={() => navigate("/")}
           className="w-full mt-6 text-zinc-400 hover:text-yellow-500 transition-all text-sm"
         >
           ← Voltar para início
         </button>
       </div>
-      
+
     </div>
   );
 }
